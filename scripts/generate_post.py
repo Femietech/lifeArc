@@ -1,30 +1,28 @@
 import os
 import json
-import random
 import datetime
-from openai import OpenAI
+import google.generativeai as genai
 
 # Load topics
 with open("topics.json", "r") as f:
     data = json.load(f)
 topics = data["topics"]
 
-# Pick a topic (simple round-robin by day of year to avoid repeats)
+# Pick a topic (round-robin by day of year to avoid repeats)
 day_of_year = datetime.datetime.now().timetuple().tm_yday
-topic_index = day_of_year % len(topics)
+topic_index = day_of_year % len(topic` s)
 topic = topics[topic_index]
 
-# Generate content using OpenAI
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+# Configure Gemini
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-prompt = f"Write a detailed, educational blog post about '{topic}' for a finance blog. Include practical advice and examples. Keep it around 500 words."
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}],
-    temperature=0.7,
-    max_tokens=800
-)
-content = response.choices[0].message.content
+# Use the free model (Gemini 1.5 Flash is fast and free)
+model = genai.GenerativeModel('gemini-1.5-flash')
+
+prompt = f"Write a detailed, educational blog post about '{topic}' for a finance blog. Include practical advice and examples. Keep it around 500 words. Use markdown formatting."
+
+response = model.generate_content(prompt)
+content = response.text
 
 # Create post filename with date
 today = datetime.date.today()
