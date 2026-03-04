@@ -1,0 +1,13 @@
+# Jekyll Configuration
+
+# Basic settings
+baseurl: ""
+url: "https://example.com"
+
+# Permalinks
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
