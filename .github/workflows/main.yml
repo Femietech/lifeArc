@@ -1,4 +1,30 @@
-- name: Generate post
-  env:
-    GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}  # Changed from OPENAI_API_KEY
-  run: python generate_post.py
+name: Autonomous Finance Blog
+
+on:
+  workflow_dispatch: # Allows you to run it manually with a button
+  schedule:
+    - cron: '0 9 * * *' # Runs automatically every day at 9 AM
+
+jobs:
+  post_to_blogger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install google-api-python-client google-auth-oauthlib google-auth-httplib2 google-generativeai
+
+      - name: Run Blog Script
+        env:
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python generate_post.py
