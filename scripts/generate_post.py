@@ -4,7 +4,7 @@ import datetime
 import google.generativeai as genai
 
 # Load topics
-with open("../topics.json", "r") as f:
+with open("topics.json", "r") as f:
     data = json.load(f)
 topics = data["topics"]
 
