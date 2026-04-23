@@ -18,7 +18,8 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install google-api-python-client google-auth-oauthlib google-auth-httplib2 google-generativeai
+        run: |
+          pip install google-api-python-client google-auth-oauthlib google-auth-httplib2 google-generativeai
 
       - name: Run Blog Script
         env:
