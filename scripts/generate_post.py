@@ -17,8 +17,7 @@ topic = topics[topic_index]
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 # Use the free model (Gemini 1.5 Flash is fast and free)
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
-
+model = genai.GenerativeModel('gemini-1.5-pro')
 prompt = f"Write a detailed, educational blog post about '{topic}' for a finance blog. Include practical advice and examples. Keep it around 500 words. Use markdown formatting."
 
 response = model.generate_content(prompt)
